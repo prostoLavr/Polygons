@@ -7,7 +7,7 @@ class Point:
         self.y = y
 
 
-def on_segment(p: Point, q: Point, r: Point):
+def on_segment(p: Point, q: Point, r: Point):  # Позволяет определить лежит ли точка p на прямой pr
     if q.x <= max(p.x, r.x) and q.x >= min(p.x, r.x) and q.y <= max(p.y, r.y) and q.y >= min(p.y, r.y):
         return True
     return False
@@ -25,6 +25,8 @@ def do_intersect(p1: Point, q1: Point, p2: Point, q2: Point):
     o2 = orientation(p1, q1, q2)
     o3 = orientation(p2, q2, p1)
     o4 = orientation(p2, q2, q1)
+    if o1 != o2 and o3 != o4:
+        return True
     if o1 == 0 and on_segment(p1, p2, q1):
         return True
     if o2 == 0 and on_segment(p1, p2, q1):
@@ -48,7 +50,6 @@ def is_inside(polygons, n: int, p: Point):
                 return on_segment(polygons[i], p, polygons[next_])
             count += 1
         i = next_
-        print(i)
         if i == 0:
             break
     return bool(count % 2)
@@ -57,5 +58,5 @@ def is_inside(polygons, n: int, p: Point):
 if __name__ == '__main__':
     polygon1 = Point(0, 0), Point(10, 0), Point(10, 10), Point(0, 10)
     n = 4
-    p = Point(5, 5)
+    p = Point(-1, 10)
     print('Yes' if is_inside(polygon1, n, p) else 'No')
